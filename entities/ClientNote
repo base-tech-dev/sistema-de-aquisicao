@@ -1,0 +1,49 @@
+{
+  "name": "ClientNote",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "ID do cliente"
+    },
+    "stage": {
+      "type": "number",
+      "enum": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "description": "Etapa relacionada"
+    },
+    "content": {
+      "type": "string",
+      "description": "Conte\u00fado da nota"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "insight",
+          "alerta",
+          "oportunidade",
+          "risco",
+          "melhoria",
+          "sucesso"
+        ]
+      },
+      "description": "Tags para categorizar"
+    },
+    "is_important": {
+      "type": "boolean",
+      "default": false,
+      "description": "Marcar como importante"
+    }
+  },
+  "required": [
+    "client_id",
+    "content"
+  ]
+}

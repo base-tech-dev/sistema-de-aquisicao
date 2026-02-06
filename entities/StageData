@@ -1,0 +1,162 @@
+{
+  "name": "StageData",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string",
+      "description": "ID do cliente"
+    },
+    "stage": {
+      "type": "number",
+      "enum": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "description": "N\u00famero da etapa"
+    },
+    "month": {
+      "type": "string",
+      "description": "M\u00eas/Ano (ex: 2024-01)"
+    },
+    "investment_lead_generation": {
+      "type": "number",
+      "description": "Investimento em campanha de gera\u00e7\u00e3o de leads (R$)"
+    },
+    "investment_brand_awareness": {
+      "type": "number",
+      "description": "Investimento em campanha de reconhecimento (R$)"
+    },
+    "investment_ads": {
+      "type": "number",
+      "description": "Investimento total em an\u00fancios (R$)"
+    },
+    "accumulated_investment": {
+      "type": "number",
+      "description": "Investimento acumulado at\u00e9 esta etapa (R$)"
+    },
+    "cpl_market": {
+      "type": "number",
+      "description": "CPL de mercado"
+    },
+    "cpl_basetech": {
+      "type": "number",
+      "description": "CPL interno Base Tech"
+    },
+    "cpl_client": {
+      "type": "number",
+      "description": "CPL real do cliente"
+    },
+    "cpl_accumulated": {
+      "type": "number",
+      "description": "CPL acumulado desde o in\u00edcio"
+    },
+    "leads_whatsapp": {
+      "type": "number",
+      "description": "Quantidade de leads via WhatsApp"
+    },
+    "reach": {
+      "type": "number",
+      "description": "Alcance total"
+    },
+    "impressions": {
+      "type": "number",
+      "description": "Impress\u00f5es totais"
+    },
+    "frequency": {
+      "type": "number",
+      "description": "Frequ\u00eancia m\u00e9dia"
+    },
+    "views": {
+      "type": "number",
+      "description": "Visualiza\u00e7\u00f5es"
+    },
+    "projection_mql_quantity": {
+      "type": "number",
+      "description": "Proje\u00e7\u00e3o de MQLs para pr\u00f3xima etapa"
+    },
+    "projection_mql_cost": {
+      "type": "number",
+      "description": "Proje\u00e7\u00e3o de custo por MQL"
+    },
+    "mql_quantity": {
+      "type": "number",
+      "description": "Quantidade de MQL"
+    },
+    "mql_cost": {
+      "type": "number",
+      "description": "Custo por MQL"
+    },
+    "mql_cost_accumulated": {
+      "type": "number",
+      "description": "Custo MQL acumulado"
+    },
+    "current_conversion_rate": {
+      "type": "number",
+      "description": "Taxa de convers\u00e3o atual (%)"
+    },
+    "target_conversion_improvement": {
+      "type": "number",
+      "description": "Melhoria esperada na convers\u00e3o com testes A/B (%)"
+    },
+    "projected_mql_cost_improved": {
+      "type": "number",
+      "description": "Custo MQL projetado ap\u00f3s melhorias"
+    },
+    "conversion_lp_base": {
+      "type": "number",
+      "description": "Taxa convers\u00e3o LP Base (%)"
+    },
+    "conversion_lp_a": {
+      "type": "number",
+      "description": "Taxa convers\u00e3o LP A (%)"
+    },
+    "conversion_lp_b": {
+      "type": "number",
+      "description": "Taxa convers\u00e3o LP B (%)"
+    },
+    "sales_count": {
+      "type": "number",
+      "description": "Quantidade de vendas realizadas"
+    },
+    "revenue": {
+      "type": "number",
+      "description": "Receita total gerada pelas vendas (R$)"
+    },
+    "cac": {
+      "type": "number",
+      "description": "Custo de Aquisi\u00e7\u00e3o de Cliente"
+    },
+    "roas": {
+      "type": "number",
+      "description": "Return on Ad Spend"
+    },
+    "funnel_conversion": {
+      "type": "number",
+      "description": "Taxa convers\u00e3o do funil (%)"
+    },
+    "validation_stages_ok": {
+      "type": "boolean",
+      "description": "Etapas funcionaram?"
+    },
+    "validation_bottlenecks": {
+      "type": "string",
+      "description": "Gargalos identificados"
+    },
+    "validation_next_steps": {
+      "type": "string",
+      "description": "Pr\u00f3ximos ajustes definidos"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Observa\u00e7\u00f5es"
+    }
+  },
+  "required": [
+    "client_id",
+    "stage",
+    "month"
+  ]
+}

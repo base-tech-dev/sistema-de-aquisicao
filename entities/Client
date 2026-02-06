@@ -1,0 +1,106 @@
+{
+  "name": "Client",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome do cliente"
+    },
+    "responsible": {
+      "type": "string",
+      "description": "Respons\u00e1vel pelo cliente"
+    },
+    "sector": {
+      "type": "string",
+      "enum": [
+        "tecnologia",
+        "saude",
+        "educacao",
+        "financeiro",
+        "varejo",
+        "servicos",
+        "industria",
+        "imoveis",
+        "academia_low_cost",
+        "academia_premium",
+        "academia_boutique",
+        "academia_clube",
+        "centro_treinamento",
+        "studio_pilates",
+        "academia_studio",
+        "fabricante_equipamentos_fitness",
+        "concessionaria_popular",
+        "concessionaria_100k_300k",
+        "concessionaria_301k_500k",
+        "clinica_veterinaria",
+        "farmacia_veterinaria",
+        "farmacia",
+        "industria_b2b",
+        "clinica_medica_classe_cd",
+        "clinica_medica_classe_ab",
+        "restaurante_popular",
+        "restaurante_alto_padrao",
+        "hamburgueria",
+        "registro_marca",
+        "outros"
+      ],
+      "description": "Setor de atua\u00e7\u00e3o do cliente"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de in\u00edcio do projeto"
+    },
+    "current_stage": {
+      "type": "number",
+      "enum": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "default": 1,
+      "description": "Etapa atual do cliente"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "saudavel",
+        "atencao",
+        "critico"
+      ],
+      "default": "saudavel",
+      "description": "Status geral do projeto"
+    },
+    "logo_url": {
+      "type": "string",
+      "description": "URL do logo do cliente"
+    },
+    "banner_url": {
+      "type": "string",
+      "description": "URL do banner de capa do cliente (1400 x 800 px - propor\u00e7\u00e3o 7:4)"
+    },
+    "brand_color": {
+      "type": "string",
+      "enum": [
+        "purple",
+        "blue",
+        "green",
+        "orange",
+        "red",
+        "pink",
+        "indigo",
+        "teal",
+        "amber",
+        "rose"
+      ],
+      "default": "purple",
+      "description": "Cor da marca do cliente"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

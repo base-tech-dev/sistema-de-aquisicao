@@ -1,0 +1,43 @@
+{
+  "name": "SystemVersion",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "N\u00famero da vers\u00e3o (ex: 1.0, 2.0)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Nome da vers\u00e3o"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o das mudan\u00e7as"
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Lista de altera\u00e7\u00f5es realizadas"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": false,
+      "description": "Vers\u00e3o ativa no momento"
+    },
+    "release_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data de lan\u00e7amento"
+    },
+    "edited_by": {
+      "type": "string",
+      "description": "Email do usu\u00e1rio que criou a vers\u00e3o"
+    }
+  },
+  "required": [
+    "version",
+    "name"
+  ]
+}
