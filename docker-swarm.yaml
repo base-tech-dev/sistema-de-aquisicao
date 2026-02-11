@@ -320,11 +320,11 @@ services:
     networks:
       - db
     depends_on:
-      db:
-        # Disable this if you are using an external Postgres database
-        condition: service_healthy
-      analytics:
-        condition: service_healthy
+      - db:
+          # Disable this if you are using an external Postgres database
+          condition: service_healthy
+      - analytics:
+          condition: service_healthy
     environment:
       PG_META_PORT: 8080
       PG_META_DB_HOST: ${POSTGRES_HOST}
