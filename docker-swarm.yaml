@@ -36,7 +36,7 @@ services:
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
 
       SUPABASE_URL: http://kong:8000
-      SUPABASE_PUBLIC_URL: ${SUPABASE_PUBLIC_URL}
+      SUPABASE_PUBLIC_URL: https://${DB_DASHBOARD_HOST}
       SUPABASE_ANON_KEY: ${DB_ANON_KEY}
       SUPABASE_SERVICE_KEY: ${DB_SERVICE_ROLE_KEY}
       AUTH_JWT_SECRET: ${DB_JWT_SECRET}
@@ -57,6 +57,22 @@ services:
     volumes:
       - ./volumes/snippets:/app/snippets:Z
       - ./volumes/functions:/app/edge-functions:Z
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: '0.2'
+      labels:
+        # traefik config
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.rule=Host(`$DB_DASHBOARD_HOST`)'
+        - 'traefik.http.services.${DOCKER_STACK_NAME}_studio.loadbalancer.server.port=3000'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.entrypoints=websecure'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.tls=true'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.tls.certresolver=leresolver'
 
   kong:
     container_name: supabase-kong
@@ -86,6 +102,22 @@ services:
       DASHBOARD_PASSWORD: ${DASHBOARD_PASSWORD}
     # https://unix.stackexchange.com/a/294837
     entrypoint: bash -c 'eval "echo \"$$(cat ~/temp.yml)\"" > ~/kong.yml && /docker-entrypoint.sh kong docker-start'
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      resources:
+        limits:
+          cpus: '0.2'
+      labels:
+        # traefik config
+        - 'traefik.enable=true'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.rule=Host(`$DB_HOST`)'
+        - 'traefik.http.services.${DOCKER_STACK_NAME}_kong.loadbalancer.server.port=8443'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.entrypoints=websecure'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.tls=true'
+        - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.tls.certresolver=leresolver'
 
   auth:
     container_name: supabase-auth
