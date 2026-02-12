@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     networks:
       - db
+      - public
     environment:
       # Binds nestjs listener to both IPv4 and IPv6 network interfaces
       HOSTNAME: "::"
@@ -64,6 +65,7 @@ services:
     restart: unless-stopped
     networks:
       - db
+      - public
     volumes:
       # https://github.com/supabase/supabase/issues/12661
       - ./services/db/volumes/api/kong.yml:/home/kong/temp.yml:ro,z
