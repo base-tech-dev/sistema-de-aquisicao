@@ -83,6 +83,7 @@ ls -d services/*/docker | while read docker_folder; do
         -f ${docker_folder}/Dockerfile \
         -t ${DOCKER_STACK_NAME}_${service_name} \
         $(echo -n "$ENV_VARIABLES" | while read -r ARG; do echo -n "--build-arg $ARG=${!ARG} "; done) \
+        --no-cache \
         ./services/$service_name${DOCKER_BUILD_ROOT:+/$DOCKER_BUILD_ROOT} # \
         # &> /dev/null
     echo "built image for service $service_name"
