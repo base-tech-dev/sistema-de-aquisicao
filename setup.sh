@@ -36,7 +36,7 @@ fi
 
 # create necessary volumes
 if docker volume ls | grep -q "${DOCKER_STACK_NAME}_db-config"; then
-    echo "-> db volume already exists"
+    echo "-> db config volume already exists"
 else
     # create folder for persistent data if not exists
     mkdir -p $DATA_MNT_ROOT/db/volumes/config
@@ -48,7 +48,24 @@ else
         --opt device=${DATA_MNT_ROOT}/db/volumes/config \
         ${DOCKER_STACK_NAME}_db-config
 
-    echo "-> created db volume"
+    echo "-> created db config volume"
+fi
+
+# create necessary volumes
+if docker volume ls | grep -q "${DOCKER_STACK_NAME}_db_data"; then
+    echo "-> db data volume already exists"
+else
+    # create folder for persistent data if not exists
+    mkdir -p $DATA_MNT_ROOT/db/volumes/data
+
+    docker volume create \
+        -d local \
+        --opt type=none \
+        --opt o=bind \
+        --opt device=${DATA_MNT_ROOT}/db/volumes/data \
+        ${DOCKER_STACK_NAME}_db_data
+
+    echo "-> created db data volume"
 fi
 
 # build images
