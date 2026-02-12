@@ -97,7 +97,7 @@ services:
         # traefik config
         - 'traefik.enable=true'
         - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.rule=Host(`$DB_HOST`)'
-        - 'traefik.http.services.${DOCKER_STACK_NAME}_kong.loadbalancer.server.port=8443'
+        - 'traefik.http.services.${DOCKER_STACK_NAME}_kong.loadbalancer.server.port=8000'
         - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.entrypoints=websecure'
         - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.tls=true'
         - 'traefik.http.routers.${DOCKER_STACK_NAME}_kong.tls.certresolver=leresolver'
