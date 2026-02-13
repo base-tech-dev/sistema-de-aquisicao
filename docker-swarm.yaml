@@ -45,19 +45,6 @@ services:
     volumes:
       - ./services/db/volumes/snippets:/app/snippets:Z
       - ./services/db/volumes/functions:/app/edge-functions:Z
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints: [node.role == manager]
-      labels:
-        # traefik config
-        - 'traefik.enable=true'
-        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.rule=Host(`$DB_DASHBOARD_HOST`)'
-        - 'traefik.http.services.${DOCKER_STACK_NAME}_studio.loadbalancer.server.port=3000'
-        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.entrypoints=websecure'
-        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.tls=true'
-        - 'traefik.http.routers.${DOCKER_STACK_NAME}_studio.tls.certresolver=leresolver'
 
   kong:
     container_name: supabase-kong
@@ -396,38 +383,38 @@ services:
       - "label=disable"
 
   # Update the DATABASE_URL if you are using an external Postgres database
-  supavisor:
-    container_name: supabase-pooler
-    image: supabase/supavisor:2.7.4
-    restart: unless-stopped
-    networks:
-      - db
-    volumes:
-      - ./services/db/volumes/pooler/pooler.exs:/etc/pooler/pooler.exs:ro,z
-    environment:
-      PORT: 4000
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      DATABASE_URL: ecto://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase
-      CLUSTER_POSTGRES: "true"
-      SECRET_KEY_BASE: ${DB_SECRET_KEY_BASE}
-      # VAULT_ENC_KEY: ${VAULT_ENC_KEY}
-      API_JWT_SECRET: ${DB_JWT_SECRET}
-      METRICS_JWT_SECRET: ${DB_JWT_SECRET}
-      REGION: local
-      ERL_AFLAGS: -proto_dist inet_tcp
-      # POOLER_TENANT_ID: ${POOLER_TENANT_ID}
-      # POOLER_DEFAULT_POOL_SIZE: ${POOLER_DEFAULT_POOL_SIZE}
-      # POOLER_MAX_CLIENT_CONN: ${POOLER_MAX_CLIENT_CONN}
-      # POOLER_POOL_MODE: transaction
-      # DB_POOL_SIZE: ${POOLER_DB_POOL_SIZE}
-    command:
-      [
-        "/bin/sh",
-        "-c",
-        "/app/bin/migrate && /app/bin/supavisor eval \"$$(cat /etc/pooler/pooler.exs)\" && /app/bin/server"
-      ]
+  # supavisor:
+  #   container_name: supabase-pooler
+  #   image: supabase/supavisor:2.7.4
+  #   restart: unless-stopped
+  #   networks:
+  #     - db
+  #   volumes:
+  #     - ./services/db/volumes/pooler/pooler.exs:/etc/pooler/pooler.exs:ro,z
+  #   environment:
+  #     PORT: 4000
+  #     POSTGRES_PORT: ${POSTGRES_PORT}
+  #     POSTGRES_DB: ${POSTGRES_DB}
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  #     DATABASE_URL: ecto://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase
+  #     CLUSTER_POSTGRES: "true"
+  #     SECRET_KEY_BASE: ${DB_SECRET_KEY_BASE}
+  #     # VAULT_ENC_KEY: ${VAULT_ENC_KEY}
+  #     API_JWT_SECRET: ${DB_JWT_SECRET}
+  #     METRICS_JWT_SECRET: ${DB_JWT_SECRET}
+  #     REGION: local
+  #     ERL_AFLAGS: -proto_dist inet_tcp
+  #     # POOLER_TENANT_ID: ${POOLER_TENANT_ID}
+  #     # POOLER_DEFAULT_POOL_SIZE: ${POOLER_DEFAULT_POOL_SIZE}
+  #     # POOLER_MAX_CLIENT_CONN: ${POOLER_MAX_CLIENT_CONN}
+  #     # POOLER_POOL_MODE: transaction
+  #     # DB_POOL_SIZE: ${POOLER_DB_POOL_SIZE}
+  #   command:
+  #     [
+  #       "/bin/sh",
+  #       "-c",
+  #       "/app/bin/migrate && /app/bin/supavisor eval \"$$(cat /etc/pooler/pooler.exs)\" && /app/bin/server"
+  #     ]
 
   front:
     image: ${DOCKER_STACK_NAME}_front
