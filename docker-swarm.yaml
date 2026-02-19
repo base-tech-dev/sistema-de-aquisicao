@@ -177,31 +177,31 @@ services:
         "postgrest"
       ]
 
-  realtime:
-    # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
-    container_name: realtime-dev.supabase-realtime
-    image: supabase/realtime:v2.72.0
-    restart: unless-stopped
-    networks:
-      - db
-    environment:
-      PORT: 4000
-      DB_HOST: ${POSTGRES_HOST}
-      DB_PORT: ${POSTGRES_PORT}
-      DB_USER: supabase_admin
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_NAME: ${POSTGRES_DB}
-      DB_AFTER_CONNECT_QUERY: 'SET search_path TO _realtime'
-      DB_ENC_KEY: supabaserealtime
-      API_JWT_SECRET: ${DB_JWT_SECRET}
-      SECRET_KEY_BASE: ${DB_SECRET_KEY_BASE}
-      ERL_AFLAGS: -proto_dist inet_tcp
-      DNS_NODES: "''"
-      RLIMIT_NOFILE: "10000"
-      APP_NAME: realtime
-      SEED_SELF_HOST: "true"
-      RUN_JANITOR: "true"
-      DISABLE_HEALTHCHECK_LOGGING: "true"
+  # realtime:
+  #   # This container name looks inconsistent but is correct because realtime constructs tenant id by parsing the subdomain
+  #   container_name: realtime-dev.supabase-realtime
+  #   image: supabase/realtime:v2.72.0
+  #   restart: unless-stopped
+  #   networks:
+  #     - db
+  #   environment:
+  #     PORT: 4000
+  #     DB_HOST: ${POSTGRES_HOST}
+  #     DB_PORT: ${POSTGRES_PORT}
+  #     DB_USER: supabase_admin
+  #     DB_PASSWORD: ${POSTGRES_PASSWORD}
+  #     DB_NAME: ${POSTGRES_DB}
+  #     DB_AFTER_CONNECT_QUERY: 'SET search_path TO _realtime'
+  #     DB_ENC_KEY: supabaserealtime
+  #     API_JWT_SECRET: ${DB_JWT_SECRET}
+  #     SECRET_KEY_BASE: ${DB_SECRET_KEY_BASE}
+  #     ERL_AFLAGS: -proto_dist inet_tcp
+  #     DNS_NODES: "''"
+  #     RLIMIT_NOFILE: "10000"
+  #     APP_NAME: realtime
+  #     SEED_SELF_HOST: "true"
+  #     RUN_JANITOR: "true"
+  #     DISABLE_HEALTHCHECK_LOGGING: "true"
 
   # To use S3 backed storage: docker compose -f docker-compose.yml -f docker-compose.s3.yml up
   storage:
@@ -229,35 +229,35 @@ services:
       ENABLE_IMAGE_TRANSFORMATION: "true"
       IMGPROXY_URL: http://imgproxy:5001
 
-  imgproxy:
-    container_name: supabase-imgproxy
-    image: darthsim/imgproxy:v3.30.1
-    restart: unless-stopped
-    networks:
-      - db
-    volumes:
-      - ./services/db/volumes/storage:/var/lib/storage:z
-    environment:
-      IMGPROXY_BIND: ":5001"
-      IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
-      IMGPROXY_USE_ETAG: "true"
-      # IMGPROXY_ENABLE_WEBP_DETECTION: ${IMGPROXY_ENABLE_WEBP_DETECTION}
-      IMGPROXY_MAX_SRC_RESOLUTION: 16.8
+  # imgproxy:
+  #   container_name: supabase-imgproxy
+  #   image: darthsim/imgproxy:v3.30.1
+  #   restart: unless-stopped
+  #   networks:
+  #     - db
+  #   volumes:
+  #     - ./services/db/volumes/storage:/var/lib/storage:z
+  #   environment:
+  #     IMGPROXY_BIND: ":5001"
+  #     IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
+  #     IMGPROXY_USE_ETAG: "true"
+  #     # IMGPROXY_ENABLE_WEBP_DETECTION: ${IMGPROXY_ENABLE_WEBP_DETECTION}
+  #     IMGPROXY_MAX_SRC_RESOLUTION: 16.8
 
-  meta:
-    container_name: supabase-meta
-    image: supabase/postgres-meta:v0.95.2
-    restart: unless-stopped
-    networks:
-      - db
-    environment:
-      PG_META_PORT: 8080
-      PG_META_DB_HOST: ${POSTGRES_HOST}
-      PG_META_DB_PORT: ${POSTGRES_PORT}
-      PG_META_DB_NAME: ${POSTGRES_DB}
-      PG_META_DB_USER: supabase_admin
-      PG_META_DB_PASSWORD: ${POSTGRES_PASSWORD}
-      # CRYPTO_KEY: ${PG_META_CRYPTO_KEY}
+  # meta:
+  #   container_name: supabase-meta
+  #   image: supabase/postgres-meta:v0.95.2
+  #   restart: unless-stopped
+  #   networks:
+  #     - db
+  #   environment:
+  #     PG_META_PORT: 8080
+  #     PG_META_DB_HOST: ${POSTGRES_HOST}
+  #     PG_META_DB_PORT: ${POSTGRES_PORT}
+  #     PG_META_DB_NAME: ${POSTGRES_DB}
+  #     PG_META_DB_USER: supabase_admin
+  #     PG_META_DB_PASSWORD: ${POSTGRES_PASSWORD}
+  #     # CRYPTO_KEY: ${PG_META_CRYPTO_KEY}
 
   functions:
     container_name: supabase-edge-functions
@@ -284,40 +284,40 @@ services:
         "/home/deno/functions/main"
       ]
 
-  analytics:
-    container_name: supabase-analytics
-    image: supabase/logflare:1.30.3
-    restart: unless-stopped
-    ports:
-      - 4000:4000
-    networks:
-      - db
-    # Uncomment to use Big Query backend for analytics
-    # volumes:
-    #   - type: bind
-    #     source: ${PWD}/gcloud.json
-    #     target: /opt/app/rel/logflare/bin/gcloud.json
-    #     read_only: true
-    environment:
-      LOGFLARE_NODE_HOST: 127.0.0.1
-      DB_USERNAME: supabase_admin
-      DB_DATABASE: _supabase
-      DB_HOSTNAME: ${POSTGRES_HOST}
-      DB_PORT: ${POSTGRES_PORT}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      DB_SCHEMA: _analytics
-      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${DB_LOGFLARE_PUBLIC_ACCESS_TOKEN}
-      LOGFLARE_PRIVATE_ACCESS_TOKEN: ${DB_LOGFLARE_PRIVATE_ACCESS_TOKEN}
-      LOGFLARE_SINGLE_TENANT: "true"
-      LOGFLARE_SUPABASE_MODE: "true"
+  # analytics:
+  #   container_name: supabase-analytics
+  #   image: supabase/logflare:1.30.3
+  #   restart: unless-stopped
+  #   ports:
+  #     - 4000:4000
+  #   networks:
+  #     - db
+  #   # Uncomment to use Big Query backend for analytics
+  #   # volumes:
+  #   #   - type: bind
+  #   #     source: ${PWD}/gcloud.json
+  #   #     target: /opt/app/rel/logflare/bin/gcloud.json
+  #   #     read_only: true
+  #   environment:
+  #     LOGFLARE_NODE_HOST: 127.0.0.1
+  #     DB_USERNAME: supabase_admin
+  #     DB_DATABASE: _supabase
+  #     DB_HOSTNAME: ${POSTGRES_HOST}
+  #     DB_PORT: ${POSTGRES_PORT}
+  #     DB_PASSWORD: ${POSTGRES_PASSWORD}
+  #     DB_SCHEMA: _analytics
+  #     LOGFLARE_PUBLIC_ACCESS_TOKEN: ${DB_LOGFLARE_PUBLIC_ACCESS_TOKEN}
+  #     LOGFLARE_PRIVATE_ACCESS_TOKEN: ${DB_LOGFLARE_PRIVATE_ACCESS_TOKEN}
+  #     LOGFLARE_SINGLE_TENANT: "true"
+  #     LOGFLARE_SUPABASE_MODE: "true"
 
-      # Comment variables to use Big Query backend for analytics
-      POSTGRES_BACKEND_URL: postgresql://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase
-      POSTGRES_BACKEND_SCHEMA: _analytics
-      LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
-      # Uncomment to use Big Query backend for analytics
-      # GOOGLE_PROJECT_ID: ${GOOGLE_PROJECT_ID}
-      # GOOGLE_PROJECT_NUMBER: ${GOOGLE_PROJECT_NUMBER}
+  #     # Comment variables to use Big Query backend for analytics
+  #     POSTGRES_BACKEND_URL: postgresql://supabase_admin:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/_supabase
+  #     POSTGRES_BACKEND_SCHEMA: _analytics
+  #     LOGFLARE_FEATURE_FLAG_OVERRIDE: multibackend=true
+  #     # Uncomment to use Big Query backend for analytics
+  #     # GOOGLE_PROJECT_ID: ${GOOGLE_PROJECT_ID}
+  #     # GOOGLE_PROJECT_NUMBER: ${GOOGLE_PROJECT_NUMBER}
 
   # Comment out everything below this point if you are using an external Postgres database
   db:
@@ -363,24 +363,24 @@ services:
         "log_min_messages=fatal" # prevents Realtime polling queries from appearing in logs
       ]
 
-  vector:
-    container_name: supabase-vector
-    image: timberio/vector:0.28.1-alpine
-    restart: unless-stopped
-    networks:
-      - db
-    volumes:
-      - ./services/db/volumes/logs/vector.yml:/etc/vector/vector.yml:ro,z
-      - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro,z
-    environment:
-      LOGFLARE_PUBLIC_ACCESS_TOKEN: ${DB_LOGFLARE_PUBLIC_ACCESS_TOKEN}
-    command:
-      [
-        "--config",
-        "/etc/vector/vector.yml"
-      ]
-    security_opt:
-      - "label=disable"
+  # vector:
+  #   container_name: supabase-vector
+  #   image: timberio/vector:0.28.1-alpine
+  #   restart: unless-stopped
+  #   networks:
+  #     - db
+  #   volumes:
+  #     - ./services/db/volumes/logs/vector.yml:/etc/vector/vector.yml:ro,z
+  #     - ${DOCKER_SOCKET_LOCATION}:/var/run/docker.sock:ro,z
+  #   environment:
+  #     LOGFLARE_PUBLIC_ACCESS_TOKEN: ${DB_LOGFLARE_PUBLIC_ACCESS_TOKEN}
+  #   command:
+  #     [
+  #       "--config",
+  #       "/etc/vector/vector.yml"
+  #     ]
+  #   security_opt:
+  #     - "label=disable"
 
   # Update the DATABASE_URL if you are using an external Postgres database
   # supavisor:
